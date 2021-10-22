@@ -10,6 +10,8 @@ public class Customer implements Serializable {
     private String name;
     private String adress;
     private String email;
+    public double amount_available;
+
 
     public Customer() {
     }
@@ -20,6 +22,7 @@ public class Customer implements Serializable {
         this.name = name;
         this.adress = adress;
         this.email = email;
+        this.amount_available = 0;
     }
 
     public Customer(String id, String name, String adress) {
@@ -81,14 +84,16 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
+    public double getAmount_available() {
+        return amount_available;
+    }
+
+    public void setAmount_available(double amount_available) {
+        this.amount_available = amount_available;
+    }
+
     @Override
     public String toString() {
-        return "Customer{" +
-                "accountCustomer=" + accountCustomer +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", adress='" + adress + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "Khách hàng có id: "+ this.getId()+ " / " + "Tên là: "+ this.getName() + " / " + "Địa chỉ: "+this.getAdress()+  " / " + "Email: "+ this.getEmail();
     }
 }

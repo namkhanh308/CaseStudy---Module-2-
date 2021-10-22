@@ -105,6 +105,8 @@ public class ShoppingCartManager {
             if(checkProductCartExis){
                 Product productExist = chooseProductExist(idProduct,shoppingCartList.get(indexShoppingCart));
                 productExist.setQuantity(productExist.getQuantity()+count);
+                Product product = chooseProduct(idProduct);
+                productList.getProducts().get(indexProduct).setQuantity(product.getQuantity()-count);
                 try {
                     readWriteFileShoppingCart.writeFile(shoppingCartList);
                     readWriteFileProduct.writeFile(productList.getProducts());
@@ -153,6 +155,14 @@ public class ShoppingCartManager {
         }
 
     }
+
+//    public void displayPaymentStatus(){
+//        for (ShoppingCart shoppingCart:shoppingCartList) {
+//            if(shoppingCart.paymentStatus == true){
+//                System.out.println(shoppingCart);
+//            }
+//        }
+//    }
     public int findShopingCart(String idCustomer){
         int index = -1;
         for (int i = 0; i < shoppingCartList.size(); i++) {
@@ -187,6 +197,15 @@ public class ShoppingCartManager {
         }
 
     }
+    public Customer findCustomerInShoppingCard(String id){
+        for (ShoppingCart shoppingCart:shoppingCartList ) {
+            if(shoppingCart.getCustomer().getId().equals(id)){
+                return shoppingCart.getCustomer();
+            }
+        }
+        return null;
+    }
+
 //    public void addProductToShoppingCart(String idCustomer){
 //        if(findShopingCart(idCustomer) != -1){
 //            System.out.println("Bạn muốn chọn sản phẩm nào");

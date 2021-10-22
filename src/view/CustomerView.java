@@ -1,17 +1,25 @@
 package view;
 
 import Account.AccountManagerment;
+import controller.CustomerManager;
 import controller.ShoppingCartManager;
 import model.Customer;
 import model.ShoppingCart;
+import storage.ReadWriteFileCustomer;
+import storage.ReadWriteFileShoppingCart;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CustomerView {
     AccountManagerment accountManagerment = new AccountManagerment();
     String id;
     Customer customer;
+
+    CustomerManager customerManager = new CustomerManager();
     ShoppingCartManager shoppingCartManager = new ShoppingCartManager();
+    ReadWriteFileShoppingCart readWriteFileShoppingCart = ReadWriteFileShoppingCart.getInstance();
+    ReadWriteFileCustomer readWriteFileCustomer = ReadWriteFileCustomer.getInstance();
 
     public void displayFunction(){
         System.out.println("Xin chào bạn đã đến với Cửa hàng Food");
@@ -22,6 +30,9 @@ public class CustomerView {
         System.out.println("5. Chọn sản phẩm vào giỏ hàng");
         System.out.println("6. Xem giỏ hàng của bạn");
         System.out.println("7. Sửa giỏ hàng của bạn");
+        System.out.println("8. Kiểm tra số dư trong tài khoản");
+        System.out.println("9. Nạp tiền vào tài khoản");
+        System.out.println("10. Yêu cầu thanh toán");
         System.out.println("0. Thoát");
     }
     public void Register(){
@@ -62,14 +73,66 @@ public class CustomerView {
                     shoppingCartManager.addShoppingCart(id);
                     break;
                 case 6:
+                    System.out.println("Giỏ hàng của bạn có");
                     displayProductInMyCart(id);
                     break;
                 case 7:
                     shoppingCartManager.editProductInShoppingCart(id);
                     break;
+                case 8:
+                    checkAmount();
+                    break;
+                case 9:
+                    depositMoney();
+                    break;
+                case 10:
+                    paymentRequest();
+                    break;
             }
         }
     }
+
+    public void paymentRequest(){
+        int indexShoppingCart = shoppingCartManager.findIndexShoppingCart(id);
+        shoppingCartManager.getShoppingCartList().get(indexShoppingCart).paymentStatus = true;
+        try {
+            readWriteFileShoppingCart.writeFile(shoppingCartManager.getShoppingCartList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void checkAmount(){
+        System.out.println("Số dư trong tài khoản của bạn là: " + customerManager.getCustomers().get(findIndexCustomer(id)).getAmount_available() + " đồng") ;
+    }
+    public void depositMoney(){
+        System.out.println("Chức năng nạp tiền vào tài khoản");
+        Scanner scanner = new Scanner(System.in);
+        double money = scanner.nextDouble();
+        customerManager.getCustomers().get(findIndexCustomer(id)).setAmount_available(customerManager.getCustomers().get(findIndexCustomer(id)).getAmount_available() + money);
+        shoppingCartManager.getShoppingCartList().get(shoppingCartManager.findShopingCart(id)).getCustomer().setAmount_available(customerManager.getCustomers().get(findIndexCustomer(id)).getAmount_available());
+        System.out.println("Nạp tiền thành công");
+        for (Customer customer:customerManager.getCustomers()) {
+            System.out.println(customer);
+        }
+        try {
+            readWriteFileShoppingCart.writeFile(shoppingCartManager.getShoppingCartList());
+            readWriteFileCustomer.writeFile(customerManager.getCustomers());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public int findIndexCustomer(String idCustomer){
+        int index = -1;
+        for (int i = 0; i < customerManager.getCustomers().size(); i++) {
+            if(customerManager.getCustomers().get(i).getId().equals(id)){
+                index = i;
+            }
+        }
+        return index;
+    }
+
     public void displayProductInMyCart(String id){
         try{
             if(id == null){

@@ -61,12 +61,6 @@ public class Staff implements Serializable {
 
     @Override
     public String toString() {
-        return "Staff{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", old='" + old + '\'' +
-                ", adress='" + email + '\'' +
-                ", accountStaff=" + accountStaff +
-                '}';
+        return "Nhân viên có id: "+ this.getId()+ " / " + "Tên là: "+ this.getName() + " / " + "Tuổi: "+this.getOld()+  " / " + "Email: "+ this.getEmail();
     }
 }

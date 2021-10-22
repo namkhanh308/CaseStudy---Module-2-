@@ -61,7 +61,7 @@ public class Product implements Serializable {
     }
 
     public double getPrice() {
-        return price - this.price * type.getDiscount() ;
+        return price* quantity - this.price* quantity * type.getDiscount() ;
     }
 
     public void setPrice(double price) {
@@ -70,13 +70,6 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", Supplier='" + supplier + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
+        return "Sản phẩm có id: "+ this.getId() + " / " + "Tên: " + this.getName() +" / "+"Loại sản phẩm: " + this.getType().getTypeName() + " / " + "Khuyến mãi: " + this.getType().getDiscount()+  " / " + "Nhà cung cấp: "+ this.getSupplier() +" / "+ "Giá: " + this.getPrice() + " / " + "Số lượng: " + this.getQuantity();
     }
 }

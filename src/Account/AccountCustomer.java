@@ -2,7 +2,7 @@ package Account;
 
 import java.io.Serializable;
 
-public class AccountCustomer implements Serializable {
+public class AccountCustomer implements Serializable, Account {
     private String account;
     private String passWord;
 
@@ -33,5 +33,15 @@ public class AccountCustomer implements Serializable {
                 "account='" + account + '\'' +
                 ", passWord='" + passWord + '\'' +
                 '}';
+    }
+
+    @Override
+    public void register(String id, String email, String password) {
+
+    }
+
+    @Override
+    public void changePassWord(String newPassword) {
+
     }
 }

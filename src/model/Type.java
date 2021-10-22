@@ -59,11 +59,6 @@ public class Type implements Serializable {
 
     @Override
     public String toString() {
-        return "Type{" +
-                "id='" + id + '\'' +
-                ", typeName='" + typeName + '\'' +
-                ", discount=" + discount +
-                ", description='" + description + '\'' +
-                '}';
+        return "Loại sản phẩm có id: " + this.getId() +" / "+ "Tên loại sp: " + this.getTypeName() + " / " + "Giảm giá: " + this.getDiscount() + " / " + "Mô tả: " + this.getDescription();
     }
 }

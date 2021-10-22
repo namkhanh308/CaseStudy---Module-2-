@@ -70,7 +70,6 @@ public class AccountManagerment {
         }
     }
     public Staff loginStaff(){
-        System.out.println("abc");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Chức năng đăng nhập");
         System.out.println("Mời bạn nhập vào tài khoản: ");
@@ -101,6 +100,48 @@ public class AccountManagerment {
         }
         return false;
     }
+    public Customer findAccoutCustomer(String idCus){
+        for (Customer customer :customerManager.getCustomers()) {
+            if(customer.getId().equals(idCus)){
+                return customer;
+            }
+        }
+        return null;
+    }
+    public void findAccountForEmail(String email, String newPassWord){
+        for (AccountCustomer accountCustomer: accountCustomers) {
+            if(accountCustomer.getAccount().equals(email)){
+                accountCustomer.setPassWord(newPassWord);
+            }
+        }
+    }
+
+    public void resetPassWordCustomer(){
+        customerManager.displayCustomer();
+        System.out.println("Nhập vào id của khách hàng");
+        Scanner scanner = new Scanner(System.in);
+        String idCus = scanner.nextLine();
+        Customer customer = findAccoutCustomer(idCus);
+        if(customer != null){
+            System.out.println(accountCustomers.get(0).getPassWord());
+            Scanner scanner1 = new Scanner(System.in);
+            System.out.println("Nhập vào mật khẩu bạn muốn đổi");
+            String password = scanner1.nextLine();
+            customer.getAccountCustomer().setPassWord(password);
+            findAccountForEmail(customer.getEmail(),password);
+            System.out.println("Đổi thành công");
+            try {
+                readWriteFileAccount.writeFile(accountCustomers);
+                readWriteFileCustomer.writeFile(customerManager.getCustomers());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("Bạn nhập sai id khách hàng");
+        }
+    }
+
     public String addAccount(){
         String idCustomer;
         System.out.println("Chức năng thêm acount: ");
