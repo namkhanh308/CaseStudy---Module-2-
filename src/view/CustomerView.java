@@ -22,6 +22,7 @@ public class CustomerView {
     ReadWriteFileCustomer readWriteFileCustomer = ReadWriteFileCustomer.getInstance();
 
     public void displayFunction(){
+        System.out.println("......................................");
         System.out.println("Xin chào bạn đã đến với Cửa hàng Food");
         System.out.println("1. Đăng nhập");
         System.out.println("2. Đăng ký");
@@ -34,6 +35,7 @@ public class CustomerView {
         System.out.println("9. Nạp tiền vào tài khoản");
         System.out.println("10. Yêu cầu thanh toán");
         System.out.println("0. Thoát");
+        System.out.println("......................................");
     }
     public void Register(){
          id = accountManagerment.addAccount();

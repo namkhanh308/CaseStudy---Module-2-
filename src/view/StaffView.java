@@ -2,15 +2,14 @@ package view;
 
 import Account.AccountManagerment;
 import Account.AccountStaff;
-import controller.BillManagerment;
-import controller.CustomerManager;
-import controller.ProductManagerment;
-import controller.ShoppingCartManager;
+import controller.*;
 import model.Customer;
 import model.Product;
 import model.ShoppingCart;
 import model.Staff;
+import storage.ReadWriteFileAccountStaff;
 import storage.ReadWriteFileShoppingCart;
+import storage.ReadWriteFileStaff;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -20,10 +19,14 @@ public class StaffView {
     ShoppingCartManager shoppingCartManager = new ShoppingCartManager();
     BillManagerment billManagerment = new BillManagerment();
     CustomerManager customerManager = new CustomerManager();
+    StaffManagerment staffManagerment = new StaffManagerment();
+
     String id;
     Staff staff;
     AccountManagerment accountManagerment = new AccountManagerment();
     ReadWriteFileShoppingCart readWriteFileShoppingCart = ReadWriteFileShoppingCart.getInstance();
+    ReadWriteFileAccountStaff readWriteFileAccountStaff = ReadWriteFileAccountStaff.getInstance();
+    ReadWriteFileStaff readWriteFileStaff = ReadWriteFileStaff.getInstance();
 
     public void displayFuntion(){
         System.out.println("...................................");
@@ -122,6 +125,14 @@ public class StaffView {
                             System.out.println("Nhập mật khẩu mới mà bạn muốn đổi: ");
                             String passWord = scanner1.nextLine();
                             staff.getAccountStaff().setPassWord(passWord);
+                            int index = accountManagerment.findAccoutStaff(staff.getEmail());
+                            accountManagerment.getStaffManagerment().getStaffList().get(index).getAccountStaff().setPassWord(passWord);
+                            try {
+                                readWriteFileAccountStaff.writeFile(accountManagerment.getAccountStaffs());
+                                readWriteFileStaff.writeFile(staffManagerment.getStaffList());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             System.out.println("Đổi thành công");
                             break;
                         case 3:
@@ -185,7 +196,6 @@ public class StaffView {
                     System.out.println("Mời bạn nhập vào id của khách hàng");
                     billManagerment.dislayTotalMoneyForCustomer(inCus1);
                     break;
-
             }
         }
     }
@@ -208,8 +218,6 @@ public class StaffView {
             }
         }
     }
-
-
 
     public void PaymentProduct() {
         int choose = -1;

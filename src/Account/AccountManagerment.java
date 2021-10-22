@@ -141,7 +141,14 @@ public class AccountManagerment {
             System.out.println("Bạn nhập sai id khách hàng");
         }
     }
-
+    public int findAccoutStaff(String email){
+        for (int i = 0; i < staffManagerment.getStaffList().size(); i++) {
+            if(staffManagerment.getStaffList().get(i).getAccountStaff().getAccount().equals(email)){
+                return i;
+            }
+        }
+        return -1;
+    }
     public String addAccount(){
         String idCustomer;
         System.out.println("Chức năng thêm acount: ");
@@ -231,6 +238,21 @@ public class AccountManagerment {
         this.customerManager = customerManager;
     }
 
+    public List<AccountCustomer> getAccountCustomers() {
+        return accountCustomers;
+    }
+
+    public void setAccountCustomers(List<AccountCustomer> accountCustomers) {
+        this.accountCustomers = accountCustomers;
+    }
+
+    public List<AccountStaff> getAccountStaffs() {
+        return accountStaffs;
+    }
+
+    public void setAccountStaffs(List<AccountStaff> accountStaffs) {
+        this.accountStaffs = accountStaffs;
+    }
 
     public StaffManagerment getStaffManagerment() {
         return staffManagerment;
